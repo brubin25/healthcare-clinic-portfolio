@@ -5,12 +5,12 @@ import { useRouter } from "expo-router";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Animated } from "react-native";
 
-interface Department {
+export interface Department {
   id: keyof typeof iconMap;
   name: string;
 }
 
-const iconMap = {
+export const iconMap = {
   cardiology: "heartbeat",
   neurology: "brain",
   orthopedics: "bone",
@@ -18,15 +18,6 @@ const iconMap = {
   dermatology: "hand-paper",
   radiology: "radiation",
 };
-
-const departments: Department[] = [
-  { id: "cardiology", name: "Cardiology" },
-  { id: "neurology", name: "Neurology" },
-  { id: "orthopedics", name: "Orthopedics" },
-  { id: "pediatrics", name: "Pediatrics" },
-  { id: "dermatology", name: "Dermatology" },
-  { id: "radiology", name: "Radiology" },
-];
 
 interface DepartmentItemProps {
   item: Department;
