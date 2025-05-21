@@ -77,7 +77,7 @@ export default function DepartmentItem({ item, onPressOut }: DepartmentItemProps
     >
       <AnimatedIcon
         name={iconMap[item.id]}
-        size={24}
+        size={120}
         color={animatedColor}
         style={[styles.icon, animatedIconStyle]}
       />
