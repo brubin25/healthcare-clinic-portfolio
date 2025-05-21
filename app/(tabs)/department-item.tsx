@@ -1,10 +1,9 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, ListRenderItemInfo } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, ListRenderItemInfo, Easing } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Animated } from "react-native";
-import DepartmentItem from "./department-item";
 
 interface Department {
   id: keyof typeof iconMap;
@@ -29,9 +28,11 @@ const departments: Department[] = [
   { id: "radiology", name: "Radiology" },
 ];
 
-export default function HomeScreen() {
-  const router = useRouter();
-
+interface DepartmentItemProps {
+  item: Department;
+  onPressOut: () => void;
+}
+export default function DepartmentItem({ item, onPressOut }: DepartmentItemProps) {
   const AnimatedIcon = Animated.createAnimatedComponent(FontAwesome5);
   const animation = React.useRef(new Animated.Value(0)).current;
 
@@ -40,6 +41,7 @@ export default function HomeScreen() {
       toValue: 1,
       duration: 200,
       useNativeDriver: false,
+      easing: Easing.out(Easing.quad),
     }).start();
   };
 
@@ -48,7 +50,9 @@ export default function HomeScreen() {
       toValue: 0,
       duration: 200,
       useNativeDriver: false,
-    }).start();
+      easing: Easing.in(Easing.quad),
+    }).start(() => setTimeout(onPressOut, 200));
+
   };
 
   const animatedColor = animation.interpolate({
@@ -60,19 +64,25 @@ export default function HomeScreen() {
     inputRange: [0, 1],
     outputRange: [1, 1.5],
   });
+
   const animatedIconStyle = {
     transform: [{ scale: animatedScale }],
   };
 
-  const renderItem = ({ item }: ListRenderItemInfo<Department>) => (
-    <DepartmentItem item={item} onPressOut={() => router.push({ pathname: "/department/[id]", params: { id: item.id } })} />
-  );
-
   return (
-    <SafeAreaView style={styles.safe}>
-      <Text style={styles.title}>Departments</Text>
-      <FlatList<Department> contentContainerStyle={styles.list} data={departments} renderItem={renderItem} keyExtractor={(i) => i.id} numColumns={2} />
-    </SafeAreaView>
+    <TouchableOpacity
+      style={styles.card}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+    >
+      <AnimatedIcon
+        name={iconMap[item.id]}
+        size={24}
+        color={animatedColor}
+        style={[styles.icon, animatedIconStyle]}
+      />
+      <Text style={styles.cardText}>{item.name}</Text>
+    </TouchableOpacity>
   );
 }
 
@@ -91,7 +101,9 @@ const styles = StyleSheet.create({
   icon: {
     marginBottom: 8,
   },
-  list: { justifyContent: "space-between" },
+  list: {
+    justifyContent: "space-between"
+  },
   card: {
     flex: 1,
     margin: 8,
@@ -106,5 +118,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
   },
-  cardText: { fontSize: 18, fontWeight: "600" },
+  cardText: {
+    fontSize: 18,
+    fontWeight: "600"
+  },
 });
