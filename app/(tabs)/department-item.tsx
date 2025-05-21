@@ -87,22 +87,8 @@ export default function DepartmentItem({ item, onPressOut }: DepartmentItemProps
 }
 
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingHorizontal: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginVertical: 16,
-    textAlign: "center",
-  },
   icon: {
     marginBottom: 8,
-  },
-  list: {
-    justifyContent: "space-between"
   },
   card: {
     flex: 1,
