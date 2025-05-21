@@ -2,11 +2,21 @@ import React from "react";
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, ListRenderItemInfo } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { FontAwesome5 } from '@expo/vector-icons';
 
 interface Department {
-  id: string;
+  id: keyof typeof iconMap;
   name: string;
 }
+
+const iconMap = {
+  cardiology: "heartbeat",
+  neurology: "brain",
+  orthopedics: "bone",
+  pediatrics: "baby",
+  dermatology: "hand-paper",
+  radiology: "radiation",
+};
 
 const departments: Department[] = [
   { id: "cardiology", name: "Cardiology" },
@@ -22,6 +32,7 @@ export default function HomeScreen() {
 
   const renderItem = ({ item }: ListRenderItemInfo<Department>) => (
     <TouchableOpacity style={styles.card} onPress={() => router.push({ pathname: "/department/[id]", params: { id: item.id } })}>
+      <FontAwesome5 name={iconMap[`${item.id}`]} size={24} color="#007AFF" style={styles.icon} />
       <Text style={styles.cardText}>{item.name}</Text>
     </TouchableOpacity>
   );
@@ -45,6 +56,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: 16,
     textAlign: "center",
+  },
+  icon: {
+    marginBottom: 8,
   },
   list: { justifyContent: "space-between" },
   card: {

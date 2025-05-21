@@ -55,6 +55,7 @@ export default function DepartmentScreen() {
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.specialty}>Specialty: {item.specialty}</Text>
         <Text style={styles.price}>Fees: {item.price}</Text>
+        {/* @ts-ignore */}
         <TouchableOpacity style={styles.button} onPress={() => router.push(`/booking/${item.id}`)}>
           <Text style={styles.buttonText}>Book Appointment</Text>
         </TouchableOpacity>
