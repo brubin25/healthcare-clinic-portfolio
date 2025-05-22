@@ -4,6 +4,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Animated } from "react-native";
+import { Dimensions } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
+const LEFT_SIDEBAR_WIDTH = 100;
+const CARD_MARGIN = 16;
+const CARD_WIDTH = (screenWidth - LEFT_SIDEBAR_WIDTH - CARD_MARGIN * 3) / 2;
 
 export interface Department {
   id: keyof typeof iconMap;
@@ -61,7 +67,7 @@ export default function DepartmentItem({ item, onPressOut }: DepartmentItemProps
 
   return (
     <TouchableOpacity style={styles.card} onPressIn={handlePressIn} onPressOut={handlePressOut}>
-      <AnimatedIcon name={iconMap[item.id]} size={100} color={animatedColor} style={[styles.icon, animatedIconStyle]} />
+      <AnimatedIcon name={iconMap[item.id]} size={64} color={animatedColor} style={[styles.icon, animatedIconStyle]} />
       <Text style={styles.cardText}>{item.name}</Text>
     </TouchableOpacity>
   );
@@ -72,7 +78,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   card: {
-    flex: 1,
+    width: CARD_WIDTH,
+    height: 160,
     margin: 8,
     padding: 20,
     backgroundColor: "#f7f7f7",
@@ -86,7 +93,11 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
   },
   cardText: {
-    fontSize: 18,
-    fontWeight: "600",
+    fontSize: 16,
+    fontWeight: "500",
+    textAlign: "center",
+    flexWrap: "nowrap",
+    maxWidth: 120,
+    overflow: "hidden",
   },
 });

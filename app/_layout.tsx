@@ -13,9 +13,7 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  if (!fontsLoaded) return null;
 
   const theme = colorScheme === "dark" ? DarkTheme : DefaultTheme;
 
@@ -27,7 +25,6 @@ export default function RootLayout() {
         <Stack.Screen name="doctor/[id]" />
         <Stack.Screen name="+not-found" />
       </Stack>
-
       <StatusBar style="auto" />
     </ThemeProvider>
   );
