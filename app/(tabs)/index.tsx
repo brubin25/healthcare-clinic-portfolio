@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { FlatList, ListRenderItemInfo, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DepartmentItem, { Department } from "./department-item";
+import DepartmentItem, { Department } from "../../components/DepartmentItem";
 
 const departments: Department[] = [
   { id: "cardiology", name: "Cardiology" },
@@ -15,10 +15,8 @@ const departments: Department[] = [
 
 export default function HomeScreen() {
   const router = useRouter();
-  
-  const renderItem = ({ item }: ListRenderItemInfo<Department>) => (
-    <DepartmentItem item={item} onPressOut={() => router.push({ pathname: "/department/[id]", params: { id: item.id } })} />
-  );
+
+  const renderItem = ({ item }: ListRenderItemInfo<Department>) => <DepartmentItem item={item} onPressOut={() => router.push({ pathname: "/department/[id]", params: { id: item.id } })} />;
 
   return (
     <SafeAreaView style={styles.safe}>

@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, ListRenderItemInfo, Easing } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from "@expo/vector-icons";
 import { Animated } from "react-native";
 
 export interface Department {
@@ -43,7 +43,6 @@ export default function DepartmentItem({ item, onPressOut }: DepartmentItemProps
       useNativeDriver: false,
       easing: Easing.in(Easing.quad),
     }).start(() => setTimeout(onPressOut, 200));
-
   };
 
   const animatedColor = animation.interpolate({
@@ -61,17 +60,8 @@ export default function DepartmentItem({ item, onPressOut }: DepartmentItemProps
   };
 
   return (
-    <TouchableOpacity
-      style={styles.card}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-    >
-      <AnimatedIcon
-        name={iconMap[item.id]}
-        size={100}
-        color={animatedColor}
-        style={[styles.icon, animatedIconStyle]}
-      />
+    <TouchableOpacity style={styles.card} onPressIn={handlePressIn} onPressOut={handlePressOut}>
+      <AnimatedIcon name={iconMap[item.id]} size={100} color={animatedColor} style={[styles.icon, animatedIconStyle]} />
       <Text style={styles.cardText}>{item.name}</Text>
     </TouchableOpacity>
   );
@@ -97,6 +87,6 @@ const styles = StyleSheet.create({
   },
   cardText: {
     fontSize: 18,
-    fontWeight: "600"
+    fontWeight: "600",
   },
 });

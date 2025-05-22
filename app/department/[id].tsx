@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView, View, Text, FlatList, Image, TouchableOpacity, StyleSheet, ListRenderItemInfo } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter, Link } from "expo-router";
 
 // Doctor interface
 type Doctor = {
@@ -31,35 +31,40 @@ const allDoctors: Doctor[] = [
   { id: "orthopedics-4", name: "Dr. Kevin Ortho", photo: require("../../assets/doctors/dr_kevin.jpg"), specialty: "Pediatric Orthopedics", price: "$210" },
 
   // Pediatrics
-  { id: "pediatrics-3", name: "Dr. Lily Kids", photo: require("../../assets/doctors/dr_lily.jpg"), specialty: "Pediatric Cardiology", price: "$200" },
-  { id: "pediatrics-4", name: "Dr. Mark Growth", photo: require("../../assets/doctors/dr_mark.jpg"), specialty: "Pediatric Neurology", price: "$220" },
+  { id: "pediatrics-1", name: "Dr. Lily Kids", photo: require("../../assets/doctors/dr_lily.jpg"), specialty: "Pediatric Cardiology", price: "$200" },
+  { id: "pediatrics-2", name: "Dr. Mark Growth", photo: require("../../assets/doctors/dr_mark.jpg"), specialty: "Pediatric Neurology", price: "$220" },
 
   // Dermatology
   { id: "dermatology-1", name: "Dr. Nancy Skin", photo: require("../../assets/doctors/dr_nancy.jpg"), specialty: "Cosmetic Dermatology", price: "$180" },
 
   // Radiology
-  { id: "radiology-2", name: "Dr. Rachel Xray", photo: require("../../assets/doctors/dr_rachel.jpg"), specialty: "Magnetic Resonance Imaging", price: "$220" },
+  { id: "radiology-1", name: "Dr. Rachel Xray", photo: require("../../assets/doctors/dr_rachel.jpg"), specialty: "Magnetic Resonance Imaging", price: "$220" },
 ];
 
 export default function DepartmentScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
 
-  // Filter doctors by department prefix
   const doctors = allDoctors.filter((doc) => doc.id.startsWith(id));
 
   const renderItem = ({ item }: ListRenderItemInfo<Doctor>) => (
-    <View style={styles.card}>
-      <Image source={item.photo} style={styles.photo} resizeMode="cover" />
-      <View style={styles.info}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.specialty}>Specialty: {item.specialty}</Text>
-        <Text style={styles.price}>Fees: {item.price}</Text>
-        {/* @ts-ignore */}
-        <TouchableOpacity style={styles.button} onPress={() => router.push(`/booking/${item.id}`)}>
-          <Text style={styles.buttonText}>Book Appointment</Text>
+    <View style={styles.cardContainer}>
+      {/* Tapping anywhere on the card navigates to /doctor/[id] */}
+      <Link asChild href={`/doctor/${item.id}`}>
+        <TouchableOpacity style={styles.card}>
+          <Image source={item.photo} style={styles.photo} resizeMode="cover" />
+          <View style={styles.info}>
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.specialty}>Specialty: {item.specialty}</Text>
+            <Text style={styles.price}>Fees: {item.price}</Text>
+          </View>
         </TouchableOpacity>
-      </View>
+      </Link>
+
+      {/* Placeholder button for your future booking/[id] screen */}
+      <TouchableOpacity style={styles.button} onPress={() => router.push(`/booking/${item.id}`)}>
+        <Text style={styles.buttonText}>Book Appointment</Text>
+      </TouchableOpacity>
     </View>
   );
 
@@ -81,13 +86,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 16,
   },
-  card: {
-    flexDirection: "row",
+
+  cardContainer: {
     marginVertical: 8,
     backgroundColor: "#f7f7f7",
     borderRadius: 8,
     overflow: "hidden",
-    alignItems: "stretch",
+  },
+
+  card: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 12,
   },
   photo: {
     width: CARD_IMAGE_WIDTH,
@@ -96,8 +106,7 @@ const styles = StyleSheet.create({
   },
   info: {
     flex: 1,
-    padding: 16,
-    justifyContent: "space-between",
+    paddingLeft: 12,
   },
   name: {
     fontSize: 18,
@@ -106,19 +115,23 @@ const styles = StyleSheet.create({
   specialty: {
     fontSize: 14,
     color: "#666",
+    marginTop: 4,
   },
   price: {
     fontSize: 16,
     fontWeight: "500",
+    marginTop: 4,
   },
+
   button: {
-    marginTop: 8,
     backgroundColor: "#007bff",
-    paddingVertical: 8,
+    paddingVertical: 10,
+    marginHorizontal: 12,
+    marginBottom: 12,
     borderRadius: 4,
+    alignItems: "center",
   },
   buttonText: {
-    textAlign: "center",
     color: "#fff",
     fontWeight: "600",
   },
