@@ -1,6 +1,7 @@
 import React from "react";
 import { SafeAreaView, View, Text, FlatList, Image, TouchableOpacity, StyleSheet, ListRenderItemInfo } from "react-native";
 import { useLocalSearchParams, useRouter, Link } from "expo-router";
+import LottieView from 'lottie-react-native';
 
 // Doctor interface
 type Doctor = {
@@ -53,6 +54,12 @@ export default function DepartmentScreen() {
       <Link asChild href={`/doctor/${item.id}`}>
         <TouchableOpacity style={styles.card}>
           <Image source={item.photo} style={styles.photo} resizeMode="cover" />
+          <LottieView
+            source={require('../../assets/images/heart-pump.json')}
+            autoPlay
+            loop
+            style={[{ position: 'absolute', top: CARD_IMAGE_WIDTH / 2, left: 12, right: 12 }, styles.photo]}
+          />
           <View style={styles.info}>
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.specialty}>Specialty: {item.specialty}</Text>
