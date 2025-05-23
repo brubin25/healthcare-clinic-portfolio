@@ -12,11 +12,18 @@ const { width } = Dimensions.get('window');
 const ITEM_WIDTH = width - 60;
 
 const healthTips = [
-  { id: '1', title: 'Stay Hydrated', tip: 'Drink at least 8 glasses of water daily.' },
-  { id: '2', title: 'Exercise Regularly', tip: 'Do 30 minutes of exercise every day.' },
-  { id: '3', title: 'Eat Fruits & Veggies', tip: 'Aim for 5 servings a day.' },
-  { id: '4', title: 'Sleep Well', tip: 'Get 7-8 hours of sleep every night.' },
-  { id: '5', title: 'Wash Hands', tip: 'Wash hands regularly to prevent illness.' },
+  { id: '1', title: 'Stay Hydrated', tip: 'Drink 8-10 glasses of water daily.' },
+  { id: '2', title: 'Morning Walk', tip: 'Start your day with a light 20-min walk.' },
+  { id: '3', title: 'Stretch Often', tip: 'Stretch your body every few hours.' },
+  { id: '4', title: 'Balanced Diet', tip: 'Include fruits, grains, and proteins daily.' },
+  { id: '5', title: 'Sleep Routine', tip: 'Stick to a consistent 7-8 hour sleep schedule.' },
+  { id: '6', title: 'Avoid Sugary Snacks', tip: 'Especially important for kids and seniors.' },
+  { id: '7', title: 'Screen Time Limit (Kids)', tip: 'Limit screen use to 1 hour/day for kids.' },
+  { id: '8', title: 'Bedtime Reading (Kids)', tip: 'Encourages sleep and builds imagination.' },
+  { id: '9', title: 'Handwashing (Kids)', tip: 'Make handwashing a fun habit.' },
+  { id: '10', title: 'Gentle Yoga (Older Adults)', tip: 'Boosts flexibility and reduces joint pain.' },
+  { id: '11', title: 'Regular Checkups (Older Adults)', tip: 'Monitor blood pressure and sugar levels.' },
+  { id: '12', title: 'Social Time (Older Adults)', tip: 'Connect with others to reduce loneliness.' },
 ];
 
 const HealthTipsCarousel = () => {

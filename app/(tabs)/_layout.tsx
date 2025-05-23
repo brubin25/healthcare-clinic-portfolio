@@ -1,4 +1,3 @@
-// app/(tabs)/_layout.tsx
 import { Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
@@ -37,7 +36,7 @@ export default function TabLayout() {
                 }}
             />
 
-            {/* Chatbot Tab (center) */}
+            {/* Chatbot Tab */}
             <Tabs.Screen
                 name="chatbot"
                 options={{
@@ -55,6 +54,17 @@ export default function TabLayout() {
                     title: "Search",
                     tabBarIcon: ({ color }) => (
                         <IconSymbol size={28} name="paperplane.fill" color={color} />
+                    ),
+                }}
+            />
+
+            {/* Health Carousel Tab */}
+            <Tabs.Screen
+                name="health-carousel"
+                options={{
+                    title: "Health Carousel",
+                    tabBarIcon: ({ color }) => (
+                        <IconSymbol size={28} name="list.bullet.rectangle.fill" color={color} />
                     ),
                 }}
             />

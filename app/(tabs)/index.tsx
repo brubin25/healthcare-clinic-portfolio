@@ -40,8 +40,7 @@ export default function HomeScreen() {
           scrollEnabled={false} // prevents nested scroll conflict
         />
 
-        <Text style={styles.subtitle}>Health Tips</Text>
-        <HealthTipsCarousel />
+        
       </ScrollView>
     </SafeAreaView>
   );
