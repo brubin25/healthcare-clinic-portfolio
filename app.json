@@ -7,9 +7,11 @@
     "icon": "./assets/images/icon.png",
     "scheme": "healthcareclinicportfolio",
     "userInterfaceStyle": "automatic",
+    "jsEngine": "jsc",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.healthcare-clinic-portfolio"
     },
     "android": {
       "adaptiveIcon": {
