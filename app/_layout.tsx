@@ -21,7 +21,8 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={theme}>
-      <Stack screenOptions={{ headerShown: false }}>
+      <Stack initialRouteName="welcome" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="welcome" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="department" />
         <Stack.Screen name="doctor/[id]" />
