@@ -1,9 +1,10 @@
 import { Redirect } from "expo-router";
 import { useRouter } from "expo-router";
 import React from "react";
-import { FlatList, ListRenderItemInfo, StyleSheet, Text } from "react-native";
+import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DepartmentItem, { Department } from "../../components/DepartmentItem";
+import HealthTipsCarousel from "../../components/HealthTipsCarousel";
 
 const departments: Department[] = [
   { id: "cardiology", name: "Cardiology" },
@@ -17,12 +18,31 @@ const departments: Department[] = [
 export default function HomeScreen() {
   const router = useRouter();
 
-  const renderItem = ({ item }: ListRenderItemInfo<Department>) => <DepartmentItem item={item} onPressOut={() => router.push({ pathname: "/department/[id]", params: { id: item.id } })} />;
+  const renderItem = ({ item }: ListRenderItemInfo<Department>) => (
+    <DepartmentItem
+      item={item}
+      onPressOut={() =>
+        router.push({ pathname: "/department/[id]", params: { id: item.id } })
+      }
+    />
+  );
 
   return (
     <SafeAreaView style={styles.safe}>
-      <Text style={styles.title}>Departments</Text>
-      <FlatList<Department> contentContainerStyle={styles.list} data={departments} renderItem={renderItem} keyExtractor={(i) => i.id} numColumns={2} />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={styles.title}>Departments</Text>
+        <FlatList<Department>
+          contentContainerStyle={styles.list}
+          data={departments}
+          renderItem={renderItem}
+          keyExtractor={(i) => i.id}
+          numColumns={2}
+          scrollEnabled={false} // prevents nested scroll conflict
+        />
+
+        <Text style={styles.subtitle}>Health Tips</Text>
+        <HealthTipsCarousel />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -39,5 +59,14 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     textAlign: "center",
   },
-  list: { justifyContent: "space-between" },
+  subtitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    marginTop: 24,
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  list: {
+    justifyContent: "space-between",
+  },
 });
