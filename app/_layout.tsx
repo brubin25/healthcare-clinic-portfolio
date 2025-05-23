@@ -23,6 +23,7 @@ export default function RootLayout() {
     <ThemeProvider value={theme}>
       <Stack initialRouteName="welcome" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="welcome" />
+        <Stack.Screen name="appointment" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="department" />
         <Stack.Screen name="doctor/[id]" />
