@@ -1,24 +1,21 @@
-// app/doctor/[id].tsx
 import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
-// Doctor interface for detail screen
 interface Doctor {
   id: string;
   name: string;
-  photo: any; // require() or remote URI
-  specialty: string; // e.g. "Cardiologist"
-  department: string; // e.g. "cardiology"
+  photo: any;
+  specialty: string;
+  department: string;
   visitingHour: string;
   totalPatients: string;
   description: string;
-  icon: any; // require() for department icon
+  icon: any;
 }
 
-// Complete list of doctors with detailed info and department icons
 const allDoctors: Doctor[] = [
   // Cardiology
   {
@@ -283,7 +280,7 @@ export default function DoctorDetailScreen() {
       </ScrollView>
 
       <View style={[styles.footer, { bottom: insets.bottom + 16 }]}>
-        <TouchableOpacity style={styles.bookButton} onPress={() => router.push(`/booking/${doctor.id}`)}>
+        <TouchableOpacity style={styles.bookButton} onPress={() => router.push("../appointment")}>
           <Text style={styles.bookButtonText}>Book Appointment</Text>
         </TouchableOpacity>
       </View>

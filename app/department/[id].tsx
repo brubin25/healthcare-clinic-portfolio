@@ -61,8 +61,7 @@ export default function DepartmentScreen() {
         </TouchableOpacity>
       </Link>
 
-      {/* Placeholder button for your future booking/[id] screen */}
-      <TouchableOpacity style={styles.button} onPress={() => router.push(`/booking/${item.id}`)}>
+      <TouchableOpacity style={styles.button} onPress={() => router.push("../appointment")}>
         <Text style={styles.buttonText}>Book Appointment</Text>
       </TouchableOpacity>
     </View>
