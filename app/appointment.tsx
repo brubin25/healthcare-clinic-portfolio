@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, ActivityIndicator, StyleSheet, Button, Alert, FlatList, TouchableOpacity } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text, ActivityIndicator, StyleSheet, Button, Alert, FlatList, TouchableOpacity, AccessibilityInfo } from "react-native";
 import { useRouter } from "expo-router";
 import { Calendar, DateData } from "react-native-calendars";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { openDatabaseAsync } from "expo-sqlite";
+import LottieView from "lottie-react-native";
 
 const dbPromise = openDatabaseAsync("appointments.db");
 
@@ -12,6 +13,9 @@ export default function AppointmentPage() {
   const [dbReady, setDbReady] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+
+  const animationRef = useRef<LottieView>(null);
+  const animationContainerRef = useRef<View>(null);
 
   useEffect(() => {
     (async () => {
@@ -42,12 +46,16 @@ export default function AppointmentPage() {
       return;
     }
     try {
+      animationContainerRef.current?.setNativeProps({ style: { opacity: 1 } });
+      animationRef.current?.play();
       const db = await dbPromise;
       await db.withTransactionAsync(async () => {
         await db.runAsync("INSERT INTO appointments (date, time) VALUES (?, ?);", selectedDate, selectedTime);
       });
-      Alert.alert("Success", `Your appointment is set for ${selectedDate} at ${selectedTime}!`);
-      router.replace("/(tabs)");
+      Alert.alert("Success", `Your appointment is set for ${selectedDate} at ${selectedTime}!`, [{ onPress: () => router.replace("/(tabs)") }]);
+      // setTimeout(() => {
+      //   router.replace("/(tabs)");
+      // }, 3000);
     } catch (err) {
       console.error("Booking failed", err);
       Alert.alert("Error", "Could not save your appointment");
@@ -68,6 +76,7 @@ export default function AppointmentPage() {
     <SafeAreaView style={styles.safe}>
       {/* All your scrollable calendar + slots live here */}
       <View style={styles.content}>
+
         <Text style={styles.heading}>Pick a Date</Text>
         <Calendar
           markedDates={selectedDate ? { [selectedDate]: { selected: true, disableTouchEvent: true } } : {}}
@@ -77,7 +86,6 @@ export default function AppointmentPage() {
           }}
           style={styles.calendar}
         />
-
         {selectedDate && (
           <>
             <Text style={styles.heading}>Pick a Time</Text>
@@ -97,6 +105,16 @@ export default function AppointmentPage() {
             />
           </>
         )}
+      </View>
+      <View ref={animationContainerRef} style={{ position: 'absolute', backgroundColor: 'transparent', opacity: 0, bottom: 0, left: 0, right: 0, height: 300 }} >
+        <LottieView
+          source={require('../assets/images/success.json')}
+          autoPlay={false}
+          // progress={108}
+          ref={animationRef}
+          loop={false}
+          style={[{ flex: 1 },]}
+        />
       </View>
 
       {/* Fixed bottom area for the button */}
