@@ -1,3 +1,4 @@
+import { Redirect } from "expo-router";
 import { useRouter } from "expo-router";
 import React from "react";
 import { FlatList, ListRenderItemInfo, StyleSheet, Text } from "react-native";

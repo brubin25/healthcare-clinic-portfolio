@@ -1,5 +1,3 @@
-// constants/doctors.ts
-
 import type { ImageSourcePropType } from "react-native";
 
 export interface Doctor {
