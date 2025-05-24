@@ -20,7 +20,7 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/constants/Colors";
 
-const OPENAI_API_KEY = "API_KEY";
+const OPENAI_API_KEY = "";
 const { width } = Dimensions.get("window");
 
 // --- simple keyword→department mapping ---
@@ -217,7 +217,7 @@ export default function ChatbotScreen() {
     const TAB_BAR_HEIGHT = 70;
     const EXTRA = 20;
     const bottomOffset = insets.bottom + TAB_BAR_HEIGHT + EXTRA;
-    const IMAGE_SZ = width * 0.6;
+    const IMAGE_SZ = width * 0.35;
 
     return (
         <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
@@ -342,7 +342,11 @@ const styles = StyleSheet.create({
     },
     suggDocName: { marginTop: 4, fontSize: 12, textAlign: "center" },
 
-    imageContainer: { alignItems: "center", marginBottom: 12 },
+    imageContainer: {
+        alignItems: "center",
+        marginTop: 8,
+        marginBottom: 8,
+    },
 
     chatCard: {
         flex: 1,
