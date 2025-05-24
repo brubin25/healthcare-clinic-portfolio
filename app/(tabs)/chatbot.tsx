@@ -12,6 +12,7 @@ import {
     Platform,
     Dimensions,
     ActivityIndicator,
+    Animated,
 } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -19,30 +20,14 @@ import axios from "axios";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Colors } from "@/constants/Colors";
+import { keywordMap } from "@/constants/keywordMap";
+import { doctors } from "@/constants/doctors";
 
 const OPENAI_API_KEY = "";
 const { width } = Dimensions.get("window");
 
-// --- simple keyword→department mapping ---
-const keywordMap: Record<string, string> = {
-    skin: "dermatology",
-    rash: "dermatology",
-    allergy: "dermatology",
-    heart: "cardiology",
-    chest: "cardiology",
-    cardio: "cardiology",
-    brain: "neurology",
-    headache: "neurology",
-    nerve: "neurology",
-    bone: "orthopedics",
-    joint: "orthopedics",
-    child: "pediatrics",
-    kid: "pediatrics",
-    xray: "radiology",
-    scan: "radiology",
-};
+const fadeAnim = new Animated.Value(0);
 
-// --- minimal dept metadata ---
 const departments: Record<string, { label: string; icon: any; route: string }> = {
     cardiology: {
         label: "Cardiology",
@@ -76,7 +61,6 @@ const departments: Record<string, { label: string; icon: any; route: string }> =
     },
 };
 
-// --- minimal doctor list by dept for suggestions ---
 const doctorsByDept: Record<string, Array<{ id: string; name: string; photo: any }>> = {
     dermatology: [
         {
@@ -137,12 +121,20 @@ export default function ChatbotScreen() {
 
     const scrollRef = useRef<ScrollView>(null);
 
-    // auto-scroll
     useEffect(() => {
         scrollRef.current?.scrollToEnd({ animated: true });
     }, [history, loading]);
 
-    // Basic retry helper
+    useEffect(() => {
+        if (activeDept) {
+            Animated.timing(fadeAnim, {
+                toValue: 1,
+                duration: 400,
+                useNativeDriver: true,
+            }).start();
+        }
+    }, [activeDept]);
+
     async function callOpenAI(body: any) {
         const headers = {
             Authorization: `Bearer ${OPENAI_API_KEY}`,
@@ -150,9 +142,7 @@ export default function ChatbotScreen() {
         };
         for (let i = 0; i < 3; i++) {
             try {
-                return await axios.post("https://api.openai.com/v1/chat/completions", body, {
-                    headers,
-                });
+                return await axios.post("https://api.openai.com/v1/chat/completions", body, { headers });
             } catch (err: any) {
                 if (err.response?.status === 429) {
                     await new Promise((r) => setTimeout(r, 2 ** i * 1000));
@@ -168,26 +158,21 @@ export default function ChatbotScreen() {
         const text = input.trim();
         if (!text || loading) return;
 
-        // 1) Show user message
         setHistory((h) => [...h, { sender: "user", text }]);
         setInput("");
         setLoading(true);
 
-        // 2) Quick keyword scan for department
         const lower = text.toLowerCase();
         const foundKey = Object.keys(keywordMap).find((k) => lower.includes(k));
         if (foundKey) {
             setActiveDept(keywordMap[foundKey]);
         }
 
-        // 3) Send to OpenAI
         try {
-            const recent = history
-                .slice(-4)
-                .map((m) => ({
-                    role: m.sender === "user" ? "user" : "assistant",
-                    content: m.text,
-                }));
+            const recent = history.slice(-4).map((m) => ({
+                role: m.sender === "user" ? "user" : "assistant",
+                content: m.text,
+            }));
 
             const body = {
                 model: "gpt-3.5-turbo",
@@ -205,10 +190,7 @@ export default function ChatbotScreen() {
             setHistory((h) => [...h, { sender: "bot", text: reply }]);
         } catch (err) {
             console.error(err);
-            setHistory((h) => [
-                ...h,
-                { sender: "bot", text: "Sorry, something went wrong. Please try again later." },
-            ]);
+            setHistory((h) => [...h, { sender: "bot", text: "Sorry, something went wrong. Please try again later." }]);
         } finally {
             setLoading(false);
         }
@@ -221,35 +203,6 @@ export default function ChatbotScreen() {
 
     return (
         <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-            {/** Suggestion Card */}
-            {activeDept && (
-                <View style={styles.suggestionCard}>
-                    <TouchableOpacity
-                        style={styles.suggestionHeader}
-                        onPress={() => router.push(departments[activeDept].route)}
-                    >
-                        <Image source={departments[activeDept].icon} style={styles.suggIcon} />
-                        <Text style={styles.suggTitle}>
-                            You may want our {departments[activeDept].label} department
-                        </Text>
-                    </TouchableOpacity>
-
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        {doctorsByDept[activeDept].map((doc) => (
-                            <TouchableOpacity
-                                key={doc.id}
-                                style={styles.suggDocCard}
-                                onPress={() => router.push(`/doctor/${doc.id}`)}
-                            >
-                                <Image source={doc.photo} style={styles.suggDocPhoto} />
-                                <Text style={styles.suggDocName}>{doc.name}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                </View>
-            )}
-
-            {/** Bot illustration */}
             <View style={styles.imageContainer}>
                 <Image
                     source={require("../../assets/chatbot/medical_doctor.png")}
@@ -258,7 +211,35 @@ export default function ChatbotScreen() {
                 />
             </View>
 
-            {/** Chat history */}
+            {activeDept && (
+                <Animated.View style={[styles.suggestionCard, { opacity: fadeAnim }]}>
+                    <TouchableOpacity
+                        style={styles.suggestionHeader}
+                        onPress={() => router.push(departments[activeDept].route)}
+                    >
+                        <Image source={departments[activeDept].icon} style={styles.suggIcon} />
+                        <Text style={styles.suggTitle} numberOfLines={2}>
+                            You may want our {departments[activeDept].label} department
+                        </Text>
+                    </TouchableOpacity>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                        {doctors
+                            .filter((doc) => doc.department === activeDept)
+                            .map((doc) => (
+                                <TouchableOpacity
+                                    key={doc.id}
+                                    style={styles.suggDocCard}
+                                    onPress={() => router.push(`/doctor/${doc.id}`)}
+                                >
+                                    <Image source={doc.photo} style={styles.suggDocPhoto} />
+                                    <Text style={styles.suggDocName}>{doc.name}</Text>
+                                </TouchableOpacity>
+                            ))}
+                    </ScrollView>
+
+                </Animated.View>
+            )}
+
             <View style={[styles.chatCard, { marginBottom: bottomOffset + 60 }]}>
                 <ScrollView ref={scrollRef} contentContainerStyle={styles.history}>
                     {history.length === 0 && !loading && (
@@ -267,21 +248,15 @@ export default function ChatbotScreen() {
                     {history.map((m, i) => (
                         <View
                             key={i}
-                            style={[
-                                styles.bubble,
-                                m.sender === "user" ? styles.bubbleUser : styles.bubbleBot,
-                            ]}
+                            style={[styles.bubble, m.sender === "user" ? styles.bubbleUser : styles.bubbleBot]}
                         >
-                            <Text style={m.sender === "user" ? styles.textUser : styles.textBot}>
-                                {m.text}
-                            </Text>
+                            <Text style={m.sender === "user" ? styles.textUser : styles.textBot}>{m.text}</Text>
                         </View>
                     ))}
                     {loading && <ActivityIndicator color={tint} style={{ marginTop: 8 }} />}
                 </ScrollView>
             </View>
 
-            {/** Input row */}
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
@@ -319,7 +294,6 @@ export default function ChatbotScreen() {
 const PHOTO_SZ = 60;
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: "#fff" },
-
     suggestionCard: {
         margin: 16,
         padding: 12,
@@ -328,8 +302,12 @@ const styles = StyleSheet.create({
     },
     suggestionHeader: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
     suggIcon: { width: 28, height: 28, marginRight: 8 },
-    suggTitle: { fontSize: 16, fontWeight: "600" },
-
+    suggTitle: {
+        fontSize: 16,
+        fontWeight: "600",
+        flexShrink: 1,
+        flexWrap: "wrap",
+    },
     suggDocCard: {
         width: PHOTO_SZ,
         marginRight: 12,
@@ -341,13 +319,11 @@ const styles = StyleSheet.create({
         borderRadius: PHOTO_SZ / 2,
     },
     suggDocName: { marginTop: 4, fontSize: 12, textAlign: "center" },
-
     imageContainer: {
         alignItems: "center",
         marginTop: 8,
         marginBottom: 8,
     },
-
     chatCard: {
         flex: 1,
         marginHorizontal: 16,
@@ -355,19 +331,22 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 16,
         ...Platform.select({
-            ios: { shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 8, shadowOffset: { width: 0, height: 4 } },
+            ios: {
+                shadowColor: "#000",
+                shadowOpacity: 0.1,
+                shadowRadius: 8,
+                shadowOffset: { width: 0, height: 4 },
+            },
             android: { elevation: 3 },
         }),
     },
     history: { flexGrow: 1 },
     placeholder: { textAlign: "center", color: "#888", fontStyle: "italic", marginTop: 24 },
-
     bubble: { padding: 10, borderRadius: 8, marginBottom: 8, maxWidth: "80%" },
     bubbleUser: { backgroundColor: "#E1FFC7", alignSelf: "flex-end" },
     bubbleBot: { backgroundColor: "#fff", alignSelf: "flex-start" },
     textUser: { color: "#333" },
     textBot: { color: "#333" },
-
     inputRow: {
         flexDirection: "row",
         alignItems: "center",
@@ -377,6 +356,21 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         padding: 8,
     },
-    input: { flex: 1, height: 44, borderWidth: 1, borderRadius: 22, paddingHorizontal: 16, fontSize: 16, backgroundColor: "#fff" },
-    sendBtn: { marginLeft: 8, width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center" },
+    input: {
+        flex: 1,
+        height: 44,
+        borderWidth: 1,
+        borderRadius: 22,
+        paddingHorizontal: 16,
+        fontSize: 16,
+        backgroundColor: "#fff",
+    },
+    sendBtn: {
+        marginLeft: 8,
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        alignItems: "center",
+        justifyContent: "center",
+    },
 });
