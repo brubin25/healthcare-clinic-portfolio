@@ -1,13 +1,28 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from "react-native";
-
-const tiles = [
-    { label: "Clinic", image: require("../../assets/home/clinic.png"), onPress: () => console.log("Clinic pressed") },
-    { label: "Profile", image: require("../../assets/home/profile.png"), onPress: () => console.log("Profile pressed") },
-    { label: "Reviews", image: require("../../assets/home/reviews.png"), onPress: () => console.log("Reviews pressed") },
-];
+import { useRouter } from "expo-router";
 
 const Home = () => {
+    const router = useRouter();
+
+    const tiles = [
+        {
+            label: "Clinic",
+            image: require("../../assets/home/clinic.png"),
+            onPress: () => router.push("/clinic"), // 👈 Navigate to clinic page
+        },
+        {
+            label: "Profile",
+            image: require("../../assets/home/profile.png"),
+            onPress: () => console.log("Profile pressed"),
+        },
+        {
+            label: "Reviews",
+            image: require("../../assets/home/reviews.png"),
+            onPress: () => console.log("Reviews pressed"),
+        },
+    ];
+
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Multispecialty Healthcare Clinic</Text>
