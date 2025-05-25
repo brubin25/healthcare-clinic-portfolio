@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { Platform } from "react-native";
+import { FontAwesome5 } from '@expo/vector-icons';
 
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -68,6 +69,17 @@ export default function TabLayout() {
                     ),
                 }}
             />
+
+            <Tabs.Screen
+              name="appointments-list"
+              options={{
+                title: 'Appointments',
+                tabBarIcon: ({ color, size }) => (
+                  <FontAwesome5 name="calendar-check" color={color} size={size} />
+                ),
+              }}
+            />
+
         </Tabs>
     );
 }

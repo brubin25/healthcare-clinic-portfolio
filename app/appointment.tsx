@@ -17,6 +17,7 @@ export default function AppointmentPage() {
   const params = useLocalSearchParams();
   const doctorId = params?.doctorId as string | undefined;
   const doctorName = params?.doctorName as string | undefined;
+  const department = params?.department as string | undefined;
 
   const [dbReady, setDbReady] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -38,6 +39,7 @@ export default function AppointmentPage() {
               patientName TEXT NOT NULL,
               doctorId TEXT NOT NULL,
               doctorName TEXT,
+              department TEXT,
               date TEXT,
               time TEXT
             );
@@ -80,6 +82,7 @@ export default function AppointmentPage() {
           patientName.trim(),
           doctorId,
           doctorName ?? "",
+          department ?? "General",
           selectedDate,
           selectedTime
         );
@@ -280,6 +283,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 32,
   },
+
   slotRow: {
     flexDirection: "row",
     justifyContent: "space-between",
