@@ -9,17 +9,17 @@ const Home = () => {
         {
             label: "Clinic",
             image: require("../../assets/home/clinic.png"),
-            onPress: () => router.push("/clinic"), // 👈 Navigate to clinic page
+            onPress: () => router.push("/clinic"),
         },
         {
             label: "Profile",
             image: require("../../assets/home/profile.png"),
-            onPress: () => console.log("Profile pressed"),
+            onPress: () => router.push("/profile"),
         },
         {
-            label: "Reviews",
+            label: "Testimonials",
             image: require("../../assets/home/reviews.png"),
-            onPress: () => console.log("Reviews pressed"),
+            onPress: () => router.push("/testimonials"),
         },
     ];
 
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
         marginBottom: 30,
+        textAlign: "center",
     },
     grid: {
         flexDirection: "row",
