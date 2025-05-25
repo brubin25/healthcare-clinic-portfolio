@@ -1,13 +1,7 @@
+import { Redirect } from "expo-router";
 import { useRouter } from "expo-router";
 import React from "react";
-import {
-  FlatList,
-  ListRenderItemInfo,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DepartmentItem, { Department } from "../../components/DepartmentItem";
 import HealthTipsCarousel from "../../components/HealthTipsCarousel";
@@ -37,20 +31,16 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safe}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Departments</Text>
-        <FlatList
+        <FlatList<Department>
           contentContainerStyle={styles.list}
           data={departments}
           renderItem={renderItem}
           keyExtractor={(i) => i.id}
           numColumns={2}
-          scrollEnabled={false}
+          scrollEnabled={false} // prevents nested scroll conflict
         />
 
-        {/* Health Tips Section */}
-        <Text style={styles.subtitle}>Health Tips</Text>
-        <View style={{ marginBottom: 20 }}>
-          <HealthTipsCarousel />
-        </View>
+        
       </ScrollView>
     </SafeAreaView>
   );
@@ -72,7 +62,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     marginTop: 24,
-    marginBottom: 12,
+    marginBottom: 8,
     textAlign: "center",
   },
   list: {

@@ -1,20 +1,33 @@
 import React from "react";
-import { View, Text, StyleSheet, Button, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function WelcomePage() {
   const router = useRouter();
 
-  console.log("WelcomePage rendered");  
-
   return (
-    <View style={styles.container}>
-      <Image source={require("../assets/welcome.jpg")} style={styles.image} resizeMode="contain" />
-      <Text style={styles.subheading}>Welcome to</Text>
-      <Text style={styles.heading}>Healthcare Clinic!</Text>
-      <Text style={styles.text}>We’re glad you’re here.</Text>
-      <Button title="Enter App" onPress={() => router.push("/(tabs)")} />
-    </View>
+      <LinearGradient
+          colors={["#e0f2ff", "#ffffff"]}
+          style={styles.container}
+      >
+        <Image
+            source={require("../assets/clinic/healthcare-clinic.png")}
+            style={styles.image}
+            resizeMode="contain"
+        />
+        <Text style={styles.title}>AuroraClinic</Text>
+        <Text style={styles.subtitle}>Multispecialty Health Clinic</Text>
+
+        <Text style={styles.caption}>Your journey to better care starts here.</Text>
+
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() => router.push("/home")}
+        >
+          <Text style={styles.buttonText}>Let’s Get Started</Text>
+        </TouchableOpacity>
+      </LinearGradient>
   );
 }
 
@@ -23,28 +36,40 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 16,
-    backgroundColor: "#fff",
+    padding: 24,
   },
   image: {
-    width: 400,
-    height: 265,
+    width: 220,
+    height: 220,
     marginBottom: 24,
   },
-  heading: {
-    fontSize: 34,
+  title: {
+    fontSize: 28,
     fontWeight: "bold",
+    color: "#003366",
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#555",
     marginBottom: 32,
+  },
+  caption: {
+    fontSize: 16,
+    color: "#333",
+    marginBottom: 40,
     textAlign: "center",
   },
-  subheading: {
-    fontSize: 24,
-    marginBottom: 0,
-    textAlign: "center",
+  button: {
+    backgroundColor: "#007AFF",
+    paddingVertical: 14,
+    paddingHorizontal: 36,
+    borderRadius: 30,
+    elevation: 2,
   },
-  text: {
-    fontSize: 18,
-    marginBottom: 24,
-    textAlign: "center",
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
