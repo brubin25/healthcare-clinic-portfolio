@@ -28,7 +28,7 @@ const tips = [
   },
   {
     id: '3',
-    title: 'DAILY\nEXERCISE',
+    title: 'EXERCISE\nDAILY',
     description: 'Regular physical activity, even a brisk 20-minute walk, enhances heart health, improves mood, and strengthens muscles.',
     image: require('../assets/images/Exercise.avif'),
   },
@@ -169,8 +169,9 @@ export default function HealthTipsCarousel() {
 const styles = StyleSheet.create({
   container: {
     marginTop: 8,
-    marginBottom: 32,
-    paddingBottom: 16,
+    marginBottom: 0,
+    paddingBottom: 0,
+    height: 200,
   },
   card: {
     backgroundColor: '#ffe9d6',
@@ -184,6 +185,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 4,
+    marginBottom: 1,
   },
   row: {
     flexDirection: 'row',
@@ -203,12 +205,13 @@ const styles = StyleSheet.create({
   indicators: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 12,
+    marginTop: 4,
+    marginBottom: 4,
   },
   dot: {
     width: 8,
     height: 8,
-    borderRadius: 5,
+    borderRadius: 10,
     backgroundColor: '#ccc',
     marginHorizontal: 4,
   },
