@@ -28,21 +28,20 @@ export default function DepartmentItem({ item, onPressOut }: DepartmentItemProps
   const animation = React.useRef(new Animated.Value(0)).current;
 
   const handlePressIn = () => {
-    Animated.timing(animation, {
+    Animated.sequence([
+      Animated.timing(animation, {
       toValue: 1,
       duration: 200,
       useNativeDriver: false,
       easing: Easing.out(Easing.quad),
-    }).start();
-  };
-
-  const handlePressOut = () => {
+    }),
     Animated.timing(animation, {
       toValue: 0,
       duration: 200,
       useNativeDriver: false,
       easing: Easing.in(Easing.quad),
-    }).start(() => setTimeout(onPressOut, 200));
+    })
+    ]).start(() => setTimeout(onPressOut, 200));
   };
 
   const animatedColor = animation.interpolate({
@@ -60,7 +59,7 @@ export default function DepartmentItem({ item, onPressOut }: DepartmentItemProps
   };
 
   return (
-    <TouchableOpacity style={styles.card} onPressIn={handlePressIn} onPressOut={handlePressOut}>
+    <TouchableOpacity style={styles.card} onPressIn={handlePressIn} >
       <AnimatedIcon name={iconMap[item.id]} size={100} color={animatedColor} style={[styles.icon, animatedIconStyle]} />
       <Text style={styles.cardText}>{item.name}</Text>
     </TouchableOpacity>
