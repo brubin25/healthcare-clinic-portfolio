@@ -5,6 +5,8 @@ import { useRouter } from "expo-router";
 export default function WelcomePage() {
   const router = useRouter();
 
+  console.log("WelcomePage rendered");  
+
   return (
     <View style={styles.container}>
       <Image source={require("../assets/welcome.jpg")} style={styles.image} resizeMode="contain" />
