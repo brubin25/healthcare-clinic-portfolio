@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
+import LottieView from "lottie-react-native";
 
 export default function WelcomePage() {
   const router = useRouter();
@@ -11,10 +12,12 @@ export default function WelcomePage() {
           colors={["#e0f2ff", "#ffffff"]}
           style={styles.container}
       >
-        <Image
-            source={require("../assets/clinic/healthcare-clinic.png")}
-            style={styles.image}
-            resizeMode="contain"
+        <LottieView 
+          source={require("../assets/images/welcome.json")}
+          autoPlay
+          loop
+          style={styles.image}
+          resizeMode="contain"
         />
         <Text style={styles.title}>AuroraClinic</Text>
         <Text style={styles.subtitle}>Multispecialty Health Clinic</Text>
