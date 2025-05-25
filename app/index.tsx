@@ -5,16 +5,16 @@ import { useRouter } from "expo-router";
 export default function WelcomePage() {
   const router = useRouter();
 
-  console.log("WelcomePage rendered");  
+  console.log("WelcomePage rendered");
 
   return (
-    <View style={styles.container}>
-      <Image source={require("../assets/welcome.jpg")} style={styles.image} resizeMode="contain" />
-      <Text style={styles.subheading}>Welcome to</Text>
-      <Text style={styles.heading}>Healthcare Clinic!</Text>
-      <Text style={styles.text}>We’re glad you’re here.</Text>
-      <Button title="Enter App" onPress={() => router.push("/(tabs)")} />
-    </View>
+      <View style={styles.container}>
+        <Image source={require("../assets/welcome.jpg")} style={styles.image} resizeMode="contain" />
+        <Text style={styles.subheading}>Welcome to</Text>
+        <Text style={styles.heading}>Healthcare Clinic!</Text>
+        <Text style={styles.text}>We’re glad you’re here.</Text>
+        <Button title="Enter App" onPress={() => router.push("home")} />
+      </View>
   );
 }
 
