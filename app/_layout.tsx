@@ -13,6 +13,8 @@ export default function RootLayout() {
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
 
+  console.log("Color Scheme:", colorScheme);
+
   if (!fontsLoaded) {
     return null;
   }
@@ -21,14 +23,13 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={theme}>
-      <Stack initialRouteName="welcome" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="welcome" />
-        <Stack.Screen name="appointment" />
+      <Stack screenOptions={{ headerShown: false }} />
+      {/* <Stack.Screen name="welcome" /> */}
+      {/* <Stack.Screen name="appointment" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="department" />
         <Stack.Screen name="doctor/[id]" />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+        <Stack.Screen name="+not-found" /> */}
 
       <StatusBar style="auto" />
     </ThemeProvider>
