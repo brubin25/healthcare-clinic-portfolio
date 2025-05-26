@@ -1,10 +1,15 @@
-import { Redirect } from "expo-router";
 import { useRouter } from "expo-router";
 import React from "react";
-import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  ListRenderItemInfo,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DepartmentItem, { Department } from "../../components/DepartmentItem";
-import HealthTipsCarousel from "../../components/HealthTipsCarousel";
 
 const departments: Department[] = [
   { id: "cardiology", name: "Cardiology" },
@@ -15,7 +20,7 @@ const departments: Department[] = [
   { id: "radiology", name: "Radiology" },
 ];
 
-export default function HomeScreen() {
+export default function DepartmentScreen() {
   const router = useRouter();
 
   const renderItem = ({ item }: ListRenderItemInfo<Department>) => (
@@ -31,16 +36,15 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safe}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Departments</Text>
-        <FlatList<Department>
+
+        <FlatList
           contentContainerStyle={styles.list}
           data={departments}
           renderItem={renderItem}
           keyExtractor={(i) => i.id}
           numColumns={2}
-          scrollEnabled={false} // prevents nested scroll conflict
+          scrollEnabled={false}
         />
-
-        
       </ScrollView>
     </SafeAreaView>
   );
@@ -56,13 +60,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 16,
-    textAlign: "center",
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    marginTop: 24,
-    marginBottom: 8,
     textAlign: "center",
   },
   list: {
