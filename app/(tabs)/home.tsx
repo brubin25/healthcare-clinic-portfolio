@@ -33,20 +33,20 @@ const Home = () => {
   ];
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <Text style={styles.header}>Multispecialty Healthcare Clinic</Text>
-      <View style={styles.grid}>
-        {tiles.map((tile, index) => (
-          <TouchableOpacity key={index} style={styles.card} onPress={tile.onPress}>
-            <Image source={tile.image} style={styles.icon} resizeMode="contain" />
-            <Text style={styles.label}>{tile.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Text style={styles.header}>AuroraCare Medical Center</Text>
+        <View style={styles.grid}>
+          {tiles.map((tile, index) => (
+              <TouchableOpacity key={index} style={styles.card} onPress={tile.onPress}>
+                <Image source={tile.image} style={styles.icon} resizeMode="contain" />
+                <Text style={styles.label}>{tile.label}</Text>
+              </TouchableOpacity>
+          ))}
+        </View>
 
-      <Text style={styles.subheader}>Health Tips</Text>
-      <HealthTipsCarousel />
-    </ScrollView>
+        <Text style={styles.subheader}>Health Tips</Text>
+        <HealthTipsCarousel />
+      </ScrollView>
   );
 };
 
@@ -58,13 +58,14 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingBottom: 40,
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#e6f2ff", // Light blue background
   },
   header: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 30,
     textAlign: "center",
+    color: "#003366", // Darker blue for contrast
   },
   subheader: {
     fontSize: 20,
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 16,
     textAlign: "center",
+    color: "#003366",
   },
   grid: {
     flexDirection: "row",
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
     width: cardSize,
     height: cardSize,
     borderRadius: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
     alignItems: "center",
     justifyContent: "center",
     padding: 15,
