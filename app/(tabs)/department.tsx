@@ -47,12 +47,12 @@ export default function DepartmentScreen() {
               scrollEnabled={false}
           />
         </ScrollView>
-         <TouchableOpacity
+         {/*}<TouchableOpacity
                   style={styles.recordsButton}
                   onPress={() => router.push("/record")}
                 >
                   <Text style={styles.recordsButtonText}>Records</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>*/}
       </SafeAreaView>
   );
 }

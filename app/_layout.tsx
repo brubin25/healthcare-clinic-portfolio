@@ -25,7 +25,7 @@ export default function RootLayout() {
     <ThemeProvider value={theme}>
       {/* You can uncomment and define Stack.Screen as needed */}
 
-      {/*}<Stack screenOptions={{ headerShown: false }}>
+      <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="welcome" />
         <Stack.Screen name="appointment" />
         <Stack.Screen name="(tabs)" />
@@ -34,7 +34,7 @@ export default function RootLayout() {
         <Stack.Screen name="+not-found" />
          <Stack.Screen name="record" />
       </Stack>
-        */}
+
       <StatusBar style="auto" />
     </ThemeProvider>
   );
