@@ -31,20 +31,17 @@ export default function AppointmentPage() {
     (async () => {
       try {
         const db = await dbPromise;
-        await db.withTransactionAsync(async () => {
-          await db.execAsync(`DROP TABLE IF EXISTS appointments;`);
-          await db.execAsync(`
-            CREATE TABLE IF NOT EXISTS appointments (
-              id   INTEGER PRIMARY KEY AUTOINCREMENT,
-              patientName TEXT NOT NULL,
-              doctorId TEXT NOT NULL,
-              doctorName TEXT,
-              department TEXT,
-              date TEXT,
-              time TEXT
-            );
-          `);
-        });
+        await db.execAsync(`
+          CREATE TABLE IF NOT EXISTS appointments (
+            id   INTEGER PRIMARY KEY AUTOINCREMENT,
+            patientName TEXT NOT NULL,
+            doctorId TEXT NOT NULL,
+            doctorName TEXT,
+            department TEXT,
+            date TEXT,
+            time TEXT
+          );
+        `);
         setDbReady(true);
       } catch (err) {
         console.error("DB init failed", err);
@@ -78,7 +75,7 @@ export default function AppointmentPage() {
       const db = await dbPromise;
       await db.withTransactionAsync(async () => {
         await db.runAsync(
-          "INSERT INTO appointments (patientName, doctorId, doctorName, date, time) VALUES (?, ?, ?, ?, ?);",
+          "INSERT INTO appointments (patientName, doctorId, doctorName, department, date, time) VALUES (?, ?, ?, ?, ?, ?);",
           patientName.trim(),
           doctorId,
           doctorName ?? "",
