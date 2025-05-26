@@ -22,7 +22,7 @@ export default function AppointmentPage() {
   const [dbReady, setDbReady] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [patientName, setPatientName] = useState<string>("");
+  const [patientName, setPatientName] = useState<string>("John Doe");
 
   const animationRef = useRef<LottieView>(null);
   const animationContainerRef = useRef<View>(null);
@@ -174,6 +174,7 @@ export default function AppointmentPage() {
               setSelectedDate(day.dateString);
               setSelectedTime(null);
             }}
+            minDate={new Date().toISOString().split("T")[0]} // Disable past dates
             style={styles.calendar}
             theme={{
               selectedDayBackgroundColor: "#3cc3fa",
