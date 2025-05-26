@@ -280,7 +280,18 @@ export default function DoctorDetailScreen() {
       </ScrollView>
 
       <View style={[styles.footer, { bottom: insets.bottom + 16 }]}>
-        <TouchableOpacity style={styles.bookButton} onPress={() => router.push("../appointment")}>
+        <TouchableOpacity
+          style={styles.bookButton}
+          onPress={() =>
+            router.push({
+              pathname: "/appointment",
+              params: {
+                doctorId: doctor.id,
+                doctorName: doctor.name,
+              },
+            })
+          }
+        >
           <Text style={styles.bookButtonText}>Book Appointment</Text>
         </TouchableOpacity>
       </View>
