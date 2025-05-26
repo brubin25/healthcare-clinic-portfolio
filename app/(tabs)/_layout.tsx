@@ -1,7 +1,7 @@
-import { Tabs } from "expo-router";
 import React from "react";
+import { Tabs } from "expo-router";
 import { Platform } from "react-native";
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -24,6 +24,7 @@ export default function TabLayout() {
                     ios: { position: "absolute" },
                     default: {},
                 }),
+                tabBarLabelStyle: { fontSize: 12 },
             }}
         >
             {/* Home Tab */}
@@ -31,8 +32,19 @@ export default function TabLayout() {
                 name="index"
                 options={{
                     title: "Home",
-                    tabBarIcon: ({ color }) => (
-                        <IconSymbol size={28} name="house.fill" color={color} />
+                    tabBarIcon: ({ color, size = 28 }) => (
+                        <IconSymbol size={size} name="house.fill" color={color} />
+                    ),
+                }}
+            />
+
+            {/* Department Tab */}
+            <Tabs.Screen
+                name="department"
+                options={{
+                    title: "Department",
+                    tabBarIcon: ({ color, size = 28 }) => (
+                        <FontAwesome5 name="hospital-symbol" size={size} color={color} />
                     ),
                 }}
             />
@@ -42,8 +54,8 @@ export default function TabLayout() {
                 name="chatbot"
                 options={{
                     title: "Chatbot",
-                    tabBarIcon: ({ color }) => (
-                        <IconSymbol size={28} name="stethoscope" color={color} />
+                    tabBarIcon: ({ color, size = 28 }) => (
+                        <IconSymbol size={size} name="stethoscope" color={color} />
                     ),
                 }}
             />
@@ -53,8 +65,8 @@ export default function TabLayout() {
                 name="search"
                 options={{
                     title: "Search",
-                    tabBarIcon: ({ color }) => (
-                        <IconSymbol size={28} name="paperplane.fill" color={color} />
+                    tabBarIcon: ({ color, size = 28 }) => (
+                        <IconSymbol size={size} name="paperplane.fill" color={color} />
                     ),
                 }}
             />
@@ -64,22 +76,22 @@ export default function TabLayout() {
                 name="health-carousel"
                 options={{
                     title: "Health Carousel",
-                    tabBarIcon: ({ color }) => (
-                        <IconSymbol size={28} name="list.bullet.rectangle.fill" color={color} />
+                    tabBarIcon: ({ color, size = 28 }) => (
+                        <IconSymbol size={size} name="list.bullet.rectangle.fill" color={color} />
                     ),
                 }}
             />
 
+            {/* Appointments Tab */}
             <Tabs.Screen
-              name="appointments-list"
-              options={{
-                title: 'Appointments',
-                tabBarIcon: ({ color, size }) => (
-                  <FontAwesome5 name="calendar-check" color={color} size={size} />
-                ),
-              }}
+                name="appointments-list"
+                options={{
+                    title: 'Appointments',
+                    tabBarIcon: ({ color, size = 28 }) => (
+                        <FontAwesome5 name="calendar-check" color={color} size={size} />
+                    ),
+                }}
             />
-
         </Tabs>
     );
 }
