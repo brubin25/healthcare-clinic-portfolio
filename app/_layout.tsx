@@ -23,17 +23,19 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={theme}>
-      <Stack screenOptions={{ headerShown: false }} />
-      {/* <Stack.Screen name="welcome" /> */}
-      {/* <Stack.Screen name="appointment" />
+      {/* You can uncomment and define Stack.Screen as needed */}
+      {/*
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="welcome" />
+        <Stack.Screen name="appointment" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="department" />
         <Stack.Screen name="doctor/[id]" />
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="record" />
-
       </Stack>
-
+      */}
+      <Stack screenOptions={{ headerShown: false }} />
       <StatusBar style="auto" />
     </ThemeProvider>
   );

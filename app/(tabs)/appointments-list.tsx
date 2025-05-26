@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, ActivityIndicator, Alert, TouchableOp
 import { openDatabaseAsync } from "expo-sqlite";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useFocusEffect } from 'expo-router'; // <-- Make sure this is imported
 
 const dbPromise = openDatabaseAsync("appointments.db");
 
@@ -13,23 +14,17 @@ export default function AppointmentsListScreen() {
   const loadAppointments = async () => {
     try {
       const db = await dbPromise;
-      // Get all appointments from DB
       const results = await db.getAllAsync("SELECT * FROM appointments;");
       const now = new Date();
-
-      // Only show future appointments
       const upcoming = results.filter(appt => {
         try {
           if (!appt.date || !appt.time) return false;
-          // Safely parse the date and time
           const apptDateTime = new Date(`${appt.date}T${appt.time}`);
           return apptDateTime.getTime() >= now.getTime();
         } catch {
           return false;
         }
       });
-
-      // Sort by soonest
       upcoming.sort(
         (a, b) => new Date(`${a.date}T${a.time}`) - new Date(`${b.date}T${b.time}`)
       );
@@ -40,6 +35,14 @@ export default function AppointmentsListScreen() {
       setLoading(false);
     }
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      loadAppointments();
+    }, [])
+  );
+
+
 
   useEffect(() => {
     loadAppointments();

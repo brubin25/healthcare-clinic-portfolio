@@ -87,9 +87,18 @@ export default function AppointmentPage() {
           selectedTime
         );
       });
-      Alert.alert("Success", `Your appointment is set for ${selectedDate} at ${selectedTime}!`, [
-        { onPress: () => router.replace("/(tabs)") }
-      ]);
+      Alert.alert(
+        "Success",
+        `Your appointment is set for ${selectedDate} at ${selectedTime}!`,
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              router.replace("/appointments-list");
+            }
+          }
+        ]
+      );
     } catch (err) {
       console.error("Booking failed", err);
       Alert.alert("Error", "Could not save your appointment");
