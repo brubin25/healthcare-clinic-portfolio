@@ -26,13 +26,13 @@ export default function RootLayout() {
       {/* You can uncomment and define Stack.Screen as needed */}
 
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="welcome" />
+        {/* <Stack.Screen name="welcome" />
         <Stack.Screen name="appointment" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="department" />
         <Stack.Screen name="doctor/[id]" />
         <Stack.Screen name="+not-found" />
-         <Stack.Screen name="record" />
+        <Stack.Screen name="record" /> */}
       </Stack>
 
       <StatusBar style="auto" />
