@@ -58,7 +58,7 @@ export default function DepartmentScreen() {
             source={require('../../assets/images/heart-pump.json')}
             autoPlay
             loop
-            style={[{ position: 'absolute', top: CARD_IMAGE_WIDTH / 2, left: 12, right: 12 }, styles.photo]}
+            style={[{ position: 'absolute', top: CARD_IMAGE_WIDTH / 2, bottom: 15, left: 12, right: 12 }, styles.photo]}
           />
           <View style={styles.info}>
             <Text style={styles.name}>{item.name}</Text>
@@ -68,7 +68,16 @@ export default function DepartmentScreen() {
         </TouchableOpacity>
       </Link>
 
-      <TouchableOpacity style={styles.button} onPress={() => router.push("../appointment")}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push({
+          pathname: "../appointment",
+          params: {
+            doctorId: item.id,
+            doctorName: item.name,
+          }
+        })}
+      >
         <Text style={styles.buttonText}>Book Appointment</Text>
       </TouchableOpacity>
     </View>

@@ -1,11 +1,10 @@
 import { Redirect } from "expo-router";
 import { useRouter } from "expo-router";
 import React from "react";
-import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DepartmentItem, { Department } from "../../components/DepartmentItem";
 import HealthTipsCarousel from "../../components/HealthTipsCarousel";
-import { Ionicons } from "@expo/vector-icons";
 
 const departments: Department[] = [
   { id: "cardiology", name: "Cardiology" },
