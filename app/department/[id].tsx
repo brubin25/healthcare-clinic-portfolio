@@ -68,7 +68,16 @@ export default function DepartmentScreen() {
         </TouchableOpacity>
       </Link>
 
-      <TouchableOpacity style={styles.button} onPress={() => router.push("../appointment")}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push({
+          pathname: "../appointment",
+          params: {
+            doctorId: item.id,
+            doctorName: item.name,
+          }
+        })}
+      >
         <Text style={styles.buttonText}>Book Appointment</Text>
       </TouchableOpacity>
     </View>
