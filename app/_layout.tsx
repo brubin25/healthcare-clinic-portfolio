@@ -28,6 +28,8 @@ export default function RootLayout() {
         <Stack.Screen name="department" />
         <Stack.Screen name="doctor/[id]" />
         <Stack.Screen name="+not-found" />
+        <Stack.Screen name="record" />
+
       </Stack>
 
       <StatusBar style="auto" />

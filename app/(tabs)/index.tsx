@@ -1,10 +1,11 @@
 import { Redirect } from "expo-router";
 import { useRouter } from "expo-router";
 import React from "react";
-import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DepartmentItem, { Department } from "../../components/DepartmentItem";
 import HealthTipsCarousel from "../../components/HealthTipsCarousel";
+import { Ionicons } from "@expo/vector-icons";
 
 const departments: Department[] = [
   { id: "cardiology", name: "Cardiology" },
@@ -40,7 +41,12 @@ export default function HomeScreen() {
           scrollEnabled={false} // prevents nested scroll conflict
         />
 
-        
+        <TouchableOpacity
+          style={styles.recordsButton}
+          onPress={() => router.push("/record")}
+        >
+          <Text style={styles.recordsButtonText}>Records</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -68,4 +74,21 @@ const styles = StyleSheet.create({
   list: {
     justifyContent: "space-between",
   },
+   recordsButton: {
+       backgroundColor: "#f7f7f7",
+      padding: 12,
+      borderRadius: 8,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 16,
+
+    },
+    recordsButtonText: {
+      color:  'light',
+      fontSize: 18,
+      marginLeft: 8,
+      fontWeight: '600',
+    }
+
 });
